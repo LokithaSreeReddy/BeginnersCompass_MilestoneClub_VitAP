@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot</title>
+    <style>
+        /* Basic styling for the chatbot */
+        body { font-family: Arial, sans-serif; }
+        .chat-container { width: 100%; max-width: 600px; margin: 50px auto; padding: 10px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9; }
+        .chat-box { height: 300px; overflow-y: scroll; padding: 10px; border: 1px solid #701212; border-radius: 5px; background-color: #fff; }
+        .chat-input { width: calc(100% - 22px); padding: 10px; margin-top: 10px; border-radius: 5px; border: 1px solid #ccc; }
+        .chat-button { width: 100%; padding: 10px; background-color: #bb4b4b; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .chat-button:hover { background-color: #bb4b4b; }
+        .message { margin: 10px 0; padding: 8px; background-color: #f1f1f1; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <h2>AI Chatbot</h2>
+    <div class="chat-box" id="chat-box"></div>
+    <textarea id="chat-input" class="chat-input" placeholder="Type your message..."></textarea>
+    <button class="chat-button" onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+    function sendMessage() {
+        const message = document.getElementById('chat-input').value;
+        if (message.trim() !== '') {
+            displayMessage('You: ' + message);
+            document.getElementById('chat-input').value = '';  // Clear input field
+            fetch('/ask', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query: message })
+            })
+            .then(response => response.json())
+            .then(data => displayMessage('Bot: ' + data.response))
+            .catch(error => console.error('Error:', error));
+        }
+    }
+
+    function displayMessage(message) {
+        const chatBox = document.getElementById('chat-box');
+        const newMessage = document.createElement('div');
+        newMessage.classList.add('message');
+        newMessage.innerText = message;
+        chatBox.appendChild(newMessage);
+        chatBox.scrollTop = chatBox.scrollHeight;  // Scroll to the latest message
+    }
+</script>
+
+</body>
+</html>

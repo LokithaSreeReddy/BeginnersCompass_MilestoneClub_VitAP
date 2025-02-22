@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Calculator</title>
+         <!-- Bootstrap CSS -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+   <!-- Bootstrap Bundle JS (Includes Popper.js for Dropdowns) -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   
+     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            height: 100vh;
+        }
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 100px;
+        }
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #800020;
+        }
+        .form-container .form-group {
+            margin-bottom: 15px;
+        }
+        .form-container .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-container .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #800020;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #990033;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+    </style> 
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="navbar-placeholder"></div>
+
+    <div class="form-container">
+        <h2>Attendance Calculator</h2>
+        <div class="form-group">
+            <label for="total-classes">Total Classes:</label>
+            <input type="number" id="total-classes" placeholder="Enter total classes">
+        </div>
+        <div class="form-group">
+            <label for="attended-classes">Attended Classes:</label>
+            <input type="number" id="attended-classes" placeholder="Enter attended classes">
+        </div>
+        <button onclick="calculateAttendance()">Calculate Attendance</button>
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+         fetch('navbar.html')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('navbar-placeholder').innerHTML = data;
+        })
+        .catch(error => console.error('Error loading the navbar:', error));
+        function calculateAttendance() {
+            const totalClasses = document.getElementById('total-classes').value;
+            const attendedClasses = document.getElementById('attended-classes').value;
+
+            if (!totalClasses || !attendedClasses) {
+                document.getElementById('result').textContent = 'Please fill out both fields.';
+                return;
+            }
+
+            const total = parseInt(totalClasses);
+            const attended = parseInt(attendedClasses);
+
+            if (total <= 0 || attended < 0 || attended > total) {
+                document.getElementById('result').textContent = 'Invalid input values.';
+                return;
+            }
+
+            const attendancePercentage = ((attended / total) * 100).toFixed(2);
+            document.getElementById('result').textContent = `Your attendance is ${attendancePercentage}%.`;
+        }
+    </script>
+</body>
+</html>

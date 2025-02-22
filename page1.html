@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Beginners Compass - Modern Design</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="navbar-placeholder"></div>
+
+    <div class="main-container">
+      <div class="sidebar">
+        <div class="welcome-text">
+          <h2>Welcome to Beginners Compass</h2>
+          <p>Your one-stop platform for university resources and updates</p>
+        </div>
+        <div class="sidebar-content">
+          <h4>Quick Links</h4>
+          <ul class="list-unstyled">
+            <li><a href="#">Academic Calendar</a></li>
+            <li><a href="#">Course Schedule</a></li>
+            <li><a href="#">Faculty Directory</a></li>
+            <li><a href="#">Campus Map</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="content-area">
+        <div class="content-overlay"></div>
+        <div class="features">
+          <div class="feature-card" data-page="registration">
+            <h5>Registration Process</h5>
+            <p>Details about the university registration process.</p>
+          </div>
+          <div class="feature-card" data-page="hostel">
+            <h5>Hostel Rules</h5>
+            <p>Important guidelines and regulations for hostels.</p>
+          </div>
+          <div class="feature-card" data-page="bus-routes">
+            <h5>Bus Routes</h5>
+            <p>Information about campus transportation and bus routes.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay"></div>
+    <div id="registration-page" class="floating-page">
+      <span class="close-btn">&times;</span>
+      <h2>Registration Process</h2>
+      <p>
+        Detailed information about the university registration process will be
+        displayed here.
+      </p>
+    </div>
+    <div id="hostel-page" class="floating-page">
+      <span class="close-btn">&times;</span>
+      <h2>Hostel Rules</h2>
+      <p>
+        Important guidelines and regulations for hostels will be displayed here.
+      </p>
+    </div>
+    <div id="bus-routes-page" class="floating-page">
+      <span class="close-btn">&times;</span>
+      <h2>Bus Routes</h2>
+      <p>
+        Information about campus transportation and bus routes will be displayed
+        here.
+      </p>
+    </div>
+
+    <script>
+      const featureCards = document.querySelectorAll(".feature-card");
+      const overlay = document.querySelector(".overlay");
+      const floatingPages = document.querySelectorAll(".floating-page");
+      const closeBtns = document.querySelectorAll(".close-btn");
+      fetch("./navbar.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("navbar-placeholder").innerHTML = data;
+        })
+        .catch((error) => console.error("Error loading the navbar:", error));
+      featureCards.forEach((card) => {
+        card.addEventListener("click", () => {
+          const pageId = card.getAttribute("data-page") + "-page";
+          const page = document.getElementById(pageId);
+          page.classList.add("active");
+          overlay.classList.add("active");
+        });
+      });
+
+      closeBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          floatingPages.forEach((page) => page.classList.remove("active"));
+          overlay.classList.remove("active");
+        });
+      });
+
+      overlay.addEventListener("click", () => {
+        floatingPages.forEach((page) => page.classList.remove("active"));
+        overlay.classList.remove("active");
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
